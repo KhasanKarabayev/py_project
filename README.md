@@ -1,7 +1,8 @@
-# Python 
+# Для python проектов 
 ```
-Under construction
+В разработке
 ```
-* django_1 - Cooking website 
-* django_2 - Internet shop
+* django_1 - Сайт для кулинарных рецептов
+* * DRF
+* django_2 - Интернет Магазин
 
