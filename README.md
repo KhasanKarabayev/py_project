@@ -1,7 +1,15 @@
-# Python 
+# Для python проектов 
 ```
-Under construction
+В разработке
 ```
-* Cooking website - Django project
-* Internet shop - Django project
-* Food order - Telegram bot
+* django_1 - Сайт для кулинарных рецептов
+  * Авторизация и Регистрация
+  * Добавление статьи
+  * Комментарии к статьям
+  * Рекомендательная система
+  * Профайл пользователя
+  * API 
+  
+* django_2 - Интернет Магазин
+  * пока еще не придумал какой )
+
