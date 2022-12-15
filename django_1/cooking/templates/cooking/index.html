@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
+{% load blog_tags %}
 
 {% block main %}
         <h2>Кулинарный портал</h2>
         <div class="d-flex justify-content-between">
             <div class="col-3">
+                {% get_all_categories as categories %}
                 {% include 'cooking/components/_sidebar.html' %}
             </div>
 
