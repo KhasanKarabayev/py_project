@@ -5,7 +5,6 @@ from .models import Category, Post
 def index(request):
     posts = Post.objects.all()
 
-
     context = {
         'title': 'Главная страница',
         'posts': posts,
@@ -25,3 +24,16 @@ def category_list(request, pk):
     }
 
     return render(request, 'cooking/index.html', context)
+
+
+def post_detail(request, pk):
+    article = Post.objects.get(pk=pk)
+    article.watched += 1
+    article.save()
+
+    context = {
+        'title': article.title,
+        'post': article
+    }
+
+    return render(request, 'cooking/article_detail.html', context)
