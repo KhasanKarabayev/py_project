@@ -1,0 +1,6 @@
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action">Все категории</a>
+    {% for category in categories %}
+    <a href="{% url 'category_list' category.pk %}" class="list-group-item list-group-item-action">{{category}}</a>
+    {% endfor %}
+</div>

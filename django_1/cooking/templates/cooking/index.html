@@ -4,30 +4,12 @@
         <h2>Кулинарный портал</h2>
         <div class="d-flex justify-content-between">
             <div class="col-3">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action">Все категории</a>
-                  {% for category in categories %}
-                    <a href="#" class="list-group-item list-group-item-action">{{category}}</a>
-                  {% endfor %}
-                </div>
-
+                {% include 'cooking/components/_sidebar.html' %}
             </div>
 
             <div class="col-8">
                 {% for post in posts %}
-                    <div class="card text-center">
-                      <div class="card-header">
-                         {{ post.category }}
-                      </div>
-                      <div class="card-body">
-                        <h5 class="card-title">{{post.title}}</h5>
-                        <p class="card-text">{{post.content}}</p>
-                        <a href="#" class="btn btn-primary">Подробнее</a>
-                      </div>
-                      <div class="card-footer text-muted">
-                        {{post.created_at}}
-                      </div>
-                    </div>
+                    {% include 'cooking/components/_card.html' %}
                 {% endfor %}
 
             </div>
