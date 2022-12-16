@@ -3,7 +3,7 @@ from .models import Category, Post
 
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(is_published=True)
 
     context = {
         'title': 'Главная страница',
@@ -15,7 +15,7 @@ def index(request):
 
 
 def category_list(request, pk):
-    posts = Post.objects.filter(category_id=pk)
+    posts = Post.objects.filter(category_id=pk, is_published=True)
 
     context = {
         'title': posts[0].category.title if posts else 'Нет статей данной категории',
