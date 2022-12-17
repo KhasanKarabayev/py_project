@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Category, Post
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from .serializers import PostSerializer
+from .serializers import PostSerializer, CategorySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -48,6 +48,17 @@ class CookingAPI(ListAPIView):
     queryset = Post.objects.filter(is_published=True)
     serializer_class = PostSerializer
 
+
 class CookingAPIDetail(RetrieveAPIView):
     queryset = Post.objects.filter(is_published=True)
     serializer_class = PostSerializer
+
+
+class CookingCategoryAPI(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CookingCategoryAPIDetail(RetrieveAPIView):
+    queryset = Post.objects.filter(is_published=True)
+    serializer_class = CategorySerializer
