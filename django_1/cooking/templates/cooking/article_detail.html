@@ -17,6 +17,12 @@
                 <img src="" class="card-img-top" alt="">
 
             <div class="card-body">
+                {% if post.photo %}
+                    <img src="{{ post.photo.url }}" alt="">
+                {% else %}
+                    <img src="http://www.niijiiradio.com/wp-content/uploads/2016/10/News-Image-3-300x225.jpg" alt="">
+                {% endif %}
+                
                 <h5 class="card-title">{{post.title}}</h5>
                 <p class="card-text">{{ post.content |linebreaks}}</p>
 
