@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Category, Post
-from .forms import PostForm
+from .forms import PostForm, LoginForm
+from django.contrib.auth import login, logout
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import PostSerializer, CategorySerializer
@@ -45,7 +46,6 @@ def post_detail(request, pk):
     return render(request, 'cooking/article_detail.html', context)
 
 
-
 def add_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -63,6 +63,29 @@ def add_post(request):
     }
 
     return render(request, 'cooking/article_form.html', contex)
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = LoginForm()
+
+    context = {
+        'title': 'Авторизация пользователя',
+        'form': form
+    }
+
+    return render(request, 'cooking/login_form.html', context)
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('index')
 
 class CookingAPI(ListAPIView):
     queryset = Post.objects.filter(is_published=True)
