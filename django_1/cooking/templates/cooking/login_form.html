@@ -10,6 +10,7 @@
 
       <form action="" method="post">
           {% csrf_token %}
+          {% include 'components/_form_errors.html' %}
           {{ form.as_p }}
           <button class="btn btn-dark" type="submit">Войти</button>
       </form>

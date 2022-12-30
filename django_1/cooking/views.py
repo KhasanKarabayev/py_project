@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Category, Post
 from .forms import PostForm, LoginForm, RegistrationForm
 from django.contrib.auth import login, logout
+from django.contrib import messages
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import PostSerializer, CategorySerializer
@@ -71,6 +72,7 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, 'Вы успешно вошли в аккаунт')
             return redirect('index')
     else:
         form = LoginForm()
@@ -89,8 +91,11 @@ def user_logout(request):
 
 
 def register(request):
-    if request == 'POST':
-        pass
+    if request.method == 'POST':
+        form = RegistrationForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('login')
     else:
         form = RegistrationForm()
 

@@ -10,7 +10,33 @@
 
       <form action="" method="post">
           {% csrf_token %}
-          {{ form.as_p }}
+          {% include 'components/_form_errors.html' %}
+
+          <div class="form-floating flex-fill mb-4">
+              {{ form.username }}
+              <label for="{{ form.username.id_for_label }}">
+                  <i class="fa-solid fa-user"></i>  Имя пользователя
+              </label>
+          </div>
+          <div class="form-floating flex-fill mb-4">
+              {{ form.email }}
+              <label for="{{ form.email.id_for_label }}">
+                  <i class="fa-solid fa-envelope"></i>  Электронная почта
+              </label>
+          </div>
+          <div class="form-floating flex-fill mb-4">
+              {{ form.password1 }}
+              <label for="{{ form.password.id_for_label }}">
+                  <i class="fa-solid fa-key"></i>  Пароль
+              </label>
+          </div>
+          <div class="form-floating flex-fill mb-4">
+              {{ form.password2 }}
+              <label for="{{ form.password.id_for_label }}">
+                  <i class="fa-solid fa-key"></i>  Подтвердите пароль
+              </label>
+          </div>
+
           <button class="btn btn-dark" type="submit">Регистрация</button>
       </form>
 
