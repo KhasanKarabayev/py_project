@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Category, Post
-from .forms import PostForm, LoginForm
+from .forms import PostForm, LoginForm, RegistrationForm
 from django.contrib.auth import login, logout
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -86,6 +86,23 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('index')
+
+
+def register(request):
+    if request == 'POST':
+        pass
+    else:
+        form = RegistrationForm()
+
+    context = {
+        'title': 'Регистрация пользователя',
+        'form': form
+    }
+
+    return render(request, 'cooking/reqister.html', context)
+
+
+
 
 class CookingAPI(ListAPIView):
     queryset = Post.objects.filter(is_published=True)
