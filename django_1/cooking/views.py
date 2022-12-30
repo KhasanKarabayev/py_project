@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Category, Post
+from .forms import PostForm
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import PostSerializer, CategorySerializer
@@ -43,6 +44,25 @@ def post_detail(request, pk):
 
     return render(request, 'cooking/article_detail.html', context)
 
+
+
+def add_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = Post.objects.create(**form.cleaned_data)
+            post.save()
+
+            return redirect('post_detail', post.pk)
+    else:
+        form = PostForm()
+
+    contex = {
+        'form': form,
+        'title': 'Добавить статью'
+    }
+
+    return render(request, 'cooking/article_form.html', contex)
 
 class CookingAPI(ListAPIView):
     queryset = Post.objects.filter(is_published=True)

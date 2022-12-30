@@ -10,6 +10,7 @@ urlpatterns = [
     path('posts/api/<int:pk>', CookingAPIDetail.as_view(), name='CookingAPIDetail'),
     path('categories/api/', CookingCategoryAPI.as_view(), name='CookingCategoryAPI'),
     path('categories/api/<int:pk>', CookingCategoryAPIDetail.as_view(), name='CookingCategoryAPIDetail'),
+    path('add_article/', add_post, name='add'),
 
     # Doc: https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html#installation
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
