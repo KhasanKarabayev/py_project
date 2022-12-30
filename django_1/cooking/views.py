@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+
 from .models import Category, Post
 from .forms import PostForm, LoginForm, RegistrationForm
 from django.contrib.auth import login, logout
@@ -30,6 +32,7 @@ class Index(ListView):
     extra_context = {
         'title': 'Главная страница'
     }
+
 
 # def category_list(request, pk):
 #     posts = Post.objects.filter(category_id=pk, is_published=True)
@@ -80,6 +83,26 @@ class ArticleDetail(DetailView):
         article.save
         context['title'] = f'Статья: {article.title}'
         return context
+
+
+class NewArticle(CreateView):
+    form_class = PostForm
+    template_name = 'cooking/article_form.html'
+    extra_context = {
+        'title': 'Добавить статью'
+    }
+
+
+class ArticleUpdate(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'cooking/article_form.html'
+
+
+class ArticleDelete(DeleteView):
+    model = Post
+    success_url = reverse_lazy('index')
+    context_object_name = 'post'
 
 
 def add_post(request):
@@ -140,8 +163,6 @@ def register(request):
     }
 
     return render(request, 'cooking/reqister.html', context)
-
-
 
 
 class CookingAPI(ListAPIView):

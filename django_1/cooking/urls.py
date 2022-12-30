@@ -13,6 +13,8 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
     path('register/', register, name='register'),
+    path('post/<int:pk>/update/', ArticleUpdate.as_view(), name='post_update'),
+    path('post/<int:pk>/delete/', ArticleDelete.as_view(), name='post_delete'),
 
     # API
     path('posts/api/', CookingAPI.as_view(), name='CookingAPI'),
