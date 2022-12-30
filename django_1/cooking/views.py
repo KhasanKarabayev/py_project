@@ -3,6 +3,7 @@ from .models import Category, Post
 from .forms import PostForm, LoginForm, RegistrationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import PostSerializer, CategorySerializer
@@ -10,41 +11,75 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-def index(request):
-    posts = Post.objects.filter(is_published=True)
+# def index(request):
+#     posts = Post.objects.filter(is_published=True)
+#
+#     context = {
+#         'title': 'Главная страница',
+#         'posts': posts,
+#
+#     }
+#
+#     return render(request, 'cooking/index.html', context)
 
-    context = {
-        'title': 'Главная страница',
-        'posts': posts,
 
+class Index(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'cooking/index.html'
+    extra_context = {
+        'title': 'Главная страница'
     }
 
-    return render(request, 'cooking/index.html', context)
+# def category_list(request, pk):
+#     posts = Post.objects.filter(category_id=pk, is_published=True)
+#
+#     context = {
+#         'title': posts[0].category.title if posts else 'Нет статей данной категории',
+#         'posts': posts,
+#
+#     }
+#
+#     return render(request, 'cooking/index.html', context)
 
 
-def category_list(request, pk):
-    posts = Post.objects.filter(category_id=pk, is_published=True)
+class ArticleByCategory(Index):
+    def get_queryset(self):
+        return Post.objects.filter(category_id=self.kwargs['pk'])
 
-    context = {
-        'title': posts[0].category.title if posts else 'Нет статей данной категории',
-        'posts': posts,
-
-    }
-
-    return render(request, 'cooking/index.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        category = Category.objects.get(pk=self.kwargs['pk'])
+        context['title'] = category.title
+        return context
 
 
-def post_detail(request, pk):
-    article = Post.objects.get(pk=pk)
-    article.watched += 1
-    article.save()
+# def post_detail(request, pk):
+#     article = Post.objects.get(pk=pk)
+#     article.watched += 1
+#     article.save()
+#
+#     context = {
+#         'title': article.title,
+#         'post': article
+#     }
+#
+#     return render(request, 'cooking/article_detail.html', context)
 
-    context = {
-        'title': article.title,
-        'post': article
-    }
+class ArticleDetail(DetailView):
+    model = Post
+    template_name = 'cooking/article_detail.html'
 
-    return render(request, 'cooking/article_detail.html', context)
+    def get_queryset(self):
+        return Post.objects.filter(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        article = Post.objects.get(pk=self.kwargs['pk'])
+        article.watched += 1
+        article.save
+        context['title'] = f'Статья: {article.title}'
+        return context
 
 
 def add_post(request):
