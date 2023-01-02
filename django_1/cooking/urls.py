@@ -1,6 +1,28 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
+from django.views.generic import TemplateView
+
+from rest_framework import permissions
+
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='Главный дед мороз',
+        default_version='v 0.0.1',
+        description='Документация по API к ресурсу кулинария',
+        terms_of_service='https://www.google.com/policies/terms',
+        contact=openapi.Contact(email='khasan@uzmobile.uz'),
+        license=openapi.License(name='BSD License'),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny, ],
+)
+
 
 urlpatterns = [
     # path('', index, name='index'),
@@ -26,4 +48,18 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
+    path(
+        'swagger-ui/',
+        TemplateView.as_view(
+            template_name='swagger/swagger_ui.html',
+            extra_context={'schema_url': 'openapi-schema'},
+        ),
+        name='swagger-ui',
+
+    ),
+    re_path(
+        r'^swagger(?P<format>\.json|\.yaml)$',
+        schema_view.without_ui(cache_timeout=1),
+        name='schema-json'
+    )
 ]
