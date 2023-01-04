@@ -8,6 +8,8 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
+from django.db.models import Q
+
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import PostSerializer, CategorySerializer
 from rest_framework.views import APIView
@@ -180,6 +182,15 @@ def profile(request, user_id):
     }
 
     return render(request, 'cooking/profile.html', context)
+
+
+class SearchResults(Index):
+    def get_queryset(self):
+        word = self.request.GET.get('q', '')
+        articles = Post.objects.filter(
+            Q(title__icontains=word) | Q(content__icontains=word)
+        )
+        return articles
 
 
 class CookingAPI(ListAPIView):
