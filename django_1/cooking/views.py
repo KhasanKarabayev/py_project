@@ -86,6 +86,9 @@ class ArticleDetail(DetailView):
         article.save
         context['title'] = f'Статья: {article.title}'
         context['comments'] = Comment.objects.filter(post=article)
+        posts = Post.objects.all()
+        posts = posts.order_by('-watched')[:4]
+        context['posts'] = posts
         if self.request.user.is_authenticated:
             context['comment_form'] = CommentForm()
         return context
