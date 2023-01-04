@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
@@ -92,6 +93,10 @@ class NewArticle(CreateView):
         'title': 'Добавить статью'
     }
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class ArticleUpdate(UpdateView):
     model = Post
@@ -163,6 +168,18 @@ def register(request):
     }
 
     return render(request, 'cooking/reqister.html', context)
+
+
+def profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    articles = Post.objects.filter(author=user)
+
+    context = {
+        'user': user,
+        'articles': articles
+    }
+
+    return render(request, 'cooking/profile.html', context)
 
 
 class CookingAPI(ListAPIView):

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -25,6 +26,7 @@ class Post(models.Model):
     watched = models.IntegerField(default=0, verbose_name='Просмотры')
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    author = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE )
 
     def __str__(self):
         return self.title
