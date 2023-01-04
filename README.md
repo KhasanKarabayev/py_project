@@ -10,8 +10,8 @@ https://cooking.distro.uz/
   * Комментарии к статьям - Выполненно
   * Рекомендательная система - Выполненно
   * Профайл пользователя - Выполненно
-  * API  - Выполненно
-  * Swagger - Выполненно
+  * API  - https://cooking.distro.uz/posts/api/
+  * Swagger - https://cooking.distro.uz/swagger-ui/
   
 
 
