@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from .models import Category, Post
-from .forms import PostForm, LoginForm, RegistrationForm
+from .models import Category, Post, Comment
+from .forms import PostForm, LoginForm, RegistrationForm, CommentForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -85,6 +85,9 @@ class ArticleDetail(DetailView):
         article.watched += 1
         article.save
         context['title'] = f'Статья: {article.title}'
+        context['comments'] = Comment.objects.filter(post=article)
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentForm()
         return context
 
 
@@ -192,6 +195,20 @@ class SearchResults(Index):
         )
         return articles
 
+
+def add_comment(request, article_id):
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        post = Post.objects.get(pk=article_id)
+        comment.post = post
+        comment.save()
+        messages.success(request, 'Ваш комментарий успешно добавлен')
+    else:
+        pass
+
+    return redirect('post_detail', article_id)
 
 class CookingAPI(ListAPIView):
     queryset = Post.objects.filter(is_published=True)

@@ -40,6 +40,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/', ArticleDelete.as_view(), name='post_delete'),
     path('profile/<int:user_id>', profile, name='profile'),
     path('search/', SearchResults.as_view(), name='search_results'),
+    path('add_comment/<int:article_id>/', add_comment, name='add_comment'),
 
     # API
     path('posts/api/', CookingAPI.as_view(), name='CookingAPI'),
