@@ -8,17 +8,19 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 {{ post.category.title }}
+                {% if user == post.author %}
                 <div>
                     <a href="{% url 'post_delete' post.pk %}" class="btn btn-dark">Удалить</a>
                     <a href="{% url 'post_update' post.pk %}" class="btn btn-dark">Изменить</a>
                     <a href="{% url 'category_list' post.category.pk %}" class="btn btn-dark">Назад</a>
                 </div>
+                {% endif %}
             </div>
             <img src="" class="card-img-top" alt="">
 
             <div class="card-body">
                 {% if post.photo %}
-                <img src="{{ post.photo.url }}" alt="">
+                <img src="{{ post.photo.url }}"  width="300" alt="">
                 {% else %}
                 <img src="https://bbulvar.ru/upload/iblock/34b/34b7e3a6a5c54e9d9ef29e07364a8a3e.jpg" alt="">
                 {% endif %}
