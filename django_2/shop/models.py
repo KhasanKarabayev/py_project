@@ -11,7 +11,7 @@ class Category(models.Model):
                                verbose_name='Категория', related_name='subcategories')
 
     def get_absolute_url(self):
-        pass
+        return reverse('category_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title
