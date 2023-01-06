@@ -19,6 +19,16 @@ class Category(models.Model):
     def __repr__(self):
         return f'Категория: pk={self.pk}, title={self.title}'
 
+    def get_first_photo(self):
+        if self.image:
+            try:
+                print(self.image.url)
+                return self.image.url
+            except:
+                return 'https://www.raumplus.ru/upload/iblock/545/Skoro-zdes-budet-foto.jpg'
+        else:
+            return 'https://www.raumplus.ru/upload/iblock/545/Skoro-zdes-budet-foto.jpg'
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
