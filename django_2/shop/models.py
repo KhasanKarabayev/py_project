@@ -49,6 +49,14 @@ class Product(models.Model):
     def get_absolute_url(self):
         pass
 
+    def get_first_photo(self):
+        if self.images:
+            try:
+                return self.images.first().image.url
+            except:
+                return 'https://www.raumplus.ru/upload/iblock/545/Skoro-zdes-budet-foto.jpg'
+        else:
+            return 'https://www.raumplus.ru/upload/iblock/545/Skoro-zdes-budet-foto.jpg'
     def __str__(self):
         return self.title
 
