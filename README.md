@@ -15,3 +15,5 @@ https://cooking.distro.uz/
   
 
 
+* django_2 - Интернет магазин 
+   В Разработке 
