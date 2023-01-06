@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
@@ -35,6 +36,7 @@ class Index(ListView):
     extra_context = {
         'title': 'Главная страница'
     }
+
 
 
 # def category_list(request, pk):
@@ -162,6 +164,7 @@ def user_logout(request):
 
 
 def register(request):
+    response = HttpResponse(status=200)
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
