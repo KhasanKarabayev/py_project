@@ -38,3 +38,15 @@ class RegistrationForm(UserCreationForm):
                 'placeholder': 'Почта'
             })
         }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваш отзыв...'
+            })
+        }

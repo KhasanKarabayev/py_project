@@ -3,7 +3,7 @@ from random import randint
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, ReviewForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
 
@@ -68,6 +68,8 @@ class ProductDetail(DetailView):
                 data.append(random_product)
 
         context['products'] = data
+        if self.request.user.is_authenticated:
+            context['review_form'] = ReviewForm()
 
         return context
 
