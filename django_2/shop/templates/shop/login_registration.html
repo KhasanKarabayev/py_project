@@ -16,9 +16,15 @@
     <div class="container d-flex justify-content-around">
         <div class="login">
             <h2 class="form-title">Войти в аккаунт</h2>
+            <form action="" class="login-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            </form>
         </div>
         <div class="registration">
             <h2 class="form-title">Создать аккаунт</h2>
+            <form action="" class="login-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            </form>
         </div>
     </div>
 </main>
