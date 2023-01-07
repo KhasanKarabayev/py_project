@@ -45,3 +45,8 @@ class CategoryView(ListView):
         context['category'] = main_category
         context['all_category'] = all_category
         return context
+
+
+class ProductDetail(DetailView):
+    model = Product
+    context_object_name = 'product'
