@@ -6,24 +6,17 @@
     <li class="list-inline-item m-0 3"><i class="fas fa-star small text-warning"></i></li>
     <li class="list-inline-item m-0 4"><i class="fas fa-star small text-warning"></i></li>
   </ul>
-  <h1>Red digital smartwatch</h1>
-  <p class="text-muted lead">$250</p>
-  <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.</p>
+  <h1>{{ product.title }}</h1>
+  <p class="text-muted lead">${{ product.price }}</p>
+  <p class="text-sm mb-4">{{ product.description }}</p>
   <div class="row align-items-stretch mb-4">
-    <div class="col-sm-5 pr-sm-0">
-      <div class="border d-flex align-items-center justify-content-between py-1 px-3 bg-white border-white"><span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
-        <div class="quantity">
-          <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-          <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-          <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="cart.html">Add to cart</a></div>
-  </div><a class="text-dark p-0 mb-4 d-inline-block" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a><br>
+  <!--    TODO доделаю после авторизации пользователя-->
+    <div class="col-sm-3 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="cart.html">Добавить в корзину</a></div>
+  </div><a class="text-dark p-0 mb-4 d-inline-block" href="#!"><i class="far fa-heart me-2"></i>Добавить в избранное</a><br>
+  <!--    END TODO -->
   <ul class="list-unstyled small d-inline-block">
-    <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">SKU:</strong><span class="ms-2 text-muted">039</span></li>
-    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Category:</strong><a class="reset-anchor ms-2" href="#!">Demo Products</a></li>
-    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Tags:</strong><a class="reset-anchor ms-2" href="#!">Innovation</a></li>
+    <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">В наличии:</strong><span class="ms-2 text-muted">{{ product.quantity }} шт.</span></li>
+    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Категория:</strong><a class="reset-anchor ms-2" href="#!">{{ product.category }}</a></li>
+    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Размер:</strong><a class="reset-anchor ms-2" href="#!">{{ product.size }}</a></li>
   </ul>
 </div>
