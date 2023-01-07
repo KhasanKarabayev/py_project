@@ -21,6 +21,16 @@ class ProductList(ListView):
         categories = Category.objects.filter(parent=None)
         return categories
 
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data()
+
+        if self.request.user.is_authenticated:
+            counter_fav = len(FavoriteProducts.objects.filter(user=user))
+            context['cnt_fav'] = counter_fav
+
+        return context
+
 
 class CategoryView(ListView):
     model = Product
@@ -47,9 +57,15 @@ class CategoryView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         main_category = Category.objects.get(slug=self.kwargs['slug'])
+        user = self.request.user
         all_category = Category.objects.filter(parent=None)
         context['category'] = main_category
         context['all_category'] = all_category
+
+        if self.request.user.is_authenticated:
+            counter_fav = len(FavoriteProducts.objects.filter(user=user))
+            context['cnt_fav'] = counter_fav
+
         return context
 
 
@@ -155,3 +171,13 @@ class FavoriteProductsView(LoginRequiredMixin, ListView):
         favs = FavoriteProducts.objects.filter(user=user)
         products = [i.product for i in favs]
         return products
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        user = self.request.user
+
+        if self.request.user.is_authenticated:
+            counter_fav = len(FavoriteProducts.objects.filter(user=user))
+            context['cnt_fav'] = counter_fav
+
+        return context
