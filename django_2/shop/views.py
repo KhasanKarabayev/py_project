@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
 from .forms import LoginForm, RegistrationForm
+from django.contrib.auth import login, logout
+from django.contrib import messages
 
 
 class ProductList(ListView):
@@ -78,3 +80,29 @@ def login_registration(request):
     }
 
     return render(request, 'shop/login_registration.html', context)
+
+
+def user_login(request):
+    form = LoginForm(data=request.POST)
+    if form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        return redirect('product_list')
+    else:
+        messages.error(request, 'Не верное имя пользователя или пароль')
+        return redirect('login_registration')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('product_list')
+
+
+def register(request):
+    form = RegistrationForm(data=request.POST)
+    if form.is_valid():
+        user = form.save()
+        messages.success(request, 'Аккаунт успешно создан. Войдите в аккаунт')
+    else:
+        messages.error(request, 'Что-то пошло не так')
+    return redirect('login_registration')
