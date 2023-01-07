@@ -2,7 +2,7 @@ from random import randint
 
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
-from .models import Category, Product, Review, FavoriteProducts
+from .models import Category, Product, Review, FavoriteProducts, Mail
 from .forms import LoginForm, RegistrationForm, ReviewForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -181,3 +181,12 @@ class FavoriteProductsView(LoginRequiredMixin, ListView):
             context['cnt_fav'] = counter_fav
 
         return context
+
+
+def save_email(request):
+    email = request.POST.get('email')
+    user = request.user if request.user.is_authenticated else None
+    if email:
+        Mail.objects.create(mail=email, user=user)
+    next_page = request.META.get('HTTP_REFERER', 'product_list')
+    return redirect(next_page)
