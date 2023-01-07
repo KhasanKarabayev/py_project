@@ -67,8 +67,14 @@
           {% include 'shop/components/_product_detail_tabs.html' %}
 
           <!-- RELATED PRODUCTS-->
-          <h2 class="h5 text-uppercase mb-4">Related products</h2>
-          {% include 'shop/components/_product_detail_related.html' %}
+          <h2 class="h5 text-uppercase mb-4">Похожие товары</h2>
+          <div class="row">
+            <!-- PRODUCT-->
+            {% for product in products %}
+            {% include 'shop/components/_product_card.html' %}
+            {% endfor %}
+          </div>
+
 
         </div>
       </section>

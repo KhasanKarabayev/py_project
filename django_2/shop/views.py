@@ -1,3 +1,5 @@
+from random import randint
+
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
@@ -50,3 +52,18 @@ class CategoryView(ListView):
 class ProductDetail(DetailView):
     model = Product
     context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        product = Product.objects.get(slug=self.kwargs['slug'])
+        products = Product.objects.filter(category=product.category)
+        data = []
+        for i in range(4):
+            random_index = randint(0, len(products) - 1)
+            random_product = products[random_index]
+            if random_product not in data and str(random_product) != product.title:
+                data.append(random_product)
+
+        context['products'] = data
+
+        return context
