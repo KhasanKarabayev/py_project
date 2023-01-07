@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Gallery
+from .models import Product, Category, Gallery, Review
 from django.utils.safestring import mark_safe
 
 
@@ -44,5 +44,10 @@ class ProductAdmin(admin.ModelAdmin):
 
     get_photo.short_description = 'Миниатюра'
 
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'author', 'created_at')
+    readonly_fields = ('author', 'text', 'created_at')
 
 admin.site.register(Gallery)
