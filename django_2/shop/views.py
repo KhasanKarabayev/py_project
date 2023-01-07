@@ -2,7 +2,7 @@ from random import randint
 
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
-from .models import Category, Product
+from .models import Category, Product, Review
 from .forms import LoginForm, RegistrationForm, ReviewForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -68,6 +68,7 @@ class ProductDetail(DetailView):
                 data.append(random_product)
 
         context['products'] = data
+        context['reviews'] = Review.objects.filter(product=product)
         if self.request.user.is_authenticated:
             context['review_form'] = ReviewForm()
 
@@ -110,3 +111,15 @@ def register(request):
             messages.error(request, form.errors[error].as_text())
 
     return redirect('login_registration')
+
+
+def save_review(request, product_id):
+    form = ReviewForm(data=request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.author = request.user
+        product = Product.objects.get(pk=product_id)
+        review.product = product
+        review.save()
+
+    return redirect('product_detail', product.slug)
