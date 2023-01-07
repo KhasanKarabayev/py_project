@@ -104,5 +104,7 @@ def register(request):
         user = form.save()
         messages.success(request, 'Аккаунт успешно создан. Войдите в аккаунт')
     else:
-        messages.error(request, 'Что-то пошло не так')
+        for error in form.errors:
+            messages.error(request, form.errors[error].as_text())
+
     return redirect('login_registration')
