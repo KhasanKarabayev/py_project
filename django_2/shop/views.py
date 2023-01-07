@@ -3,6 +3,7 @@ from random import randint
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
+from .forms import LoginForm, RegistrationForm
 
 
 class ProductList(ListView):
@@ -67,3 +68,13 @@ class ProductDetail(DetailView):
         context['products'] = data
 
         return context
+
+
+def login_registration(request):
+    context = {
+        'title': 'Войти или зарегестрироваться',
+        'login_form': LoginForm(),
+        'registration_form': RegistrationForm()
+    }
+
+    return render(request, 'shop/login_registration.html', context)
