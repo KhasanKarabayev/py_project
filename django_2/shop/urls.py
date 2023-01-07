@@ -11,5 +11,6 @@ urlpatterns = [
     path('register', register, name='register'),
     path('save_review/<int:product_id>', save_review, name='save_review'),
     path('add_favorite/<slug:product_slug>/', save_favorite_product, name='add_favorite'),
+    path('my_favorite/', FavoriteProductsView.as_view(), name='favorite_products'),
 
 ]

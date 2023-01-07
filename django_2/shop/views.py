@@ -6,6 +6,7 @@ from .models import Category, Product, Review, FavoriteProducts
 from .forms import LoginForm, RegistrationForm, ReviewForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ProductList(ListView):
@@ -138,3 +139,19 @@ def save_favorite_product(request, product_slug):
     next_page = request.META.get('HTTP_REFERER', 'products_list')
 
     return redirect(next_page)
+
+
+class FavoriteProductsView(LoginRequiredMixin, ListView):
+    extra_context = {
+        'title': 'Избранные'
+    }
+    model = FavoriteProducts
+    context_object_name = 'products'
+    template_name = 'shop/favorite_products.html'
+    login_url = 'login_registration'
+
+    def get_queryset(self):
+        user = self.request.user
+        favs = FavoriteProducts.objects.filter(user=user)
+        products = [i.product for i in favs]
+        return products
