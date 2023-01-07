@@ -190,3 +190,23 @@ def save_email(request):
         Mail.objects.create(mail=email, user=user)
     next_page = request.META.get('HTTP_REFERER', 'product_list')
     return redirect(next_page)
+
+
+def send_mail_to_customers(request):
+    from conf import settings
+    from django.core.mail import send_mail
+    if request.method == 'POST':
+        test = request.POST.get('text')
+        mail_list = Mail.objects.all()
+        for email in mail_list:
+            mail = send_mail(
+                subject='У нас новая акция',
+                message=test,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email],
+                fail_silently=False
+            )
+            print(f'Отправлено ли сообщение на почту {email}? - {bool(mail)}')
+    else:
+        pass
+    return render(request, 'shop/send_mail.html')

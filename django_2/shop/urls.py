@@ -13,5 +13,6 @@ urlpatterns = [
     path('add_favorite/<slug:product_slug>/', save_favorite_product, name='add_favorite'),
     path('my_favorite/', FavoriteProductsView.as_view(), name='favorite_products'),
     path('save_mail/', save_email, name='save_mail'),
+    path('send_mail/', send_mail_to_customers, name='send_mail'),
 
 ]
