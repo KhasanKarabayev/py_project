@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Product, Category, Gallery, Review, FavoriteProducts, Mail, Customer, Order, OrderProduct, ShippingAddress
 from django.utils.safestring import mark_safe
+from modeltranslation.admin import TranslationAdmin
 
 
 class GalleryInline(admin.TabularInline):
@@ -10,7 +11,7 @@ class GalleryInline(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ('title', 'parent', 'get_products_count')
     prepopulated_fields = {'slug': ('title',)}
 
@@ -25,7 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TranslationAdmin):
     list_display = ('pk', 'title', 'category', 'quantity', 'price', 'created_at', 'size', 'color', 'get_photo')
     list_editable = ('price', 'quantity', 'size', 'color')
     list_display_links = ('title',)
