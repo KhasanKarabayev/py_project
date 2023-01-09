@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Gallery, Review, FavoriteProducts, Mail
+from .models import Product, Category, Gallery, Review, FavoriteProducts, Mail, Customer, Order, OrderProduct, ShippingAddress
 from django.utils.safestring import mark_safe
 
 
@@ -54,3 +54,7 @@ class ReviewAdmin(admin.ModelAdmin):
 admin.site.register(Gallery)
 admin.site.register(FavoriteProducts)
 admin.site.register(Mail)
+admin.site.register(Customer)
+admin.site.register(Order)
+admin.site.register(OrderProduct)
+admin.site.register(ShippingAddress)

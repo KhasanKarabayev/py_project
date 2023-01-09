@@ -116,7 +116,7 @@ class Mail(models.Model):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, models.SET_NULL, blank=True, null=True) # blank и null обязательны, если обнулится пользователь то его удалим
+    user = models.OneToOneField(User, models.SET_NULL, blank=True, null=True)
     name = models.CharField(max_length=255, verbose_name='Имя полтзователя')
     email = models.EmailField(verbose_name='Почта')
 
@@ -143,8 +143,8 @@ class Order(models.Model):
 
     @property
     def get_cart_total_price(self):
-        order_products = self.orderproduct_set.all() # orderproduct обращение к детям если не прописан related_name
-        total_price = sum([product.get_total_price for product in order_products]) # сумма список всех денежных средств
+        order_products = self.orderproduct_set.all()
+        total_price = sum([product.get_total_price for product in order_products])
         return total_price
 
     @property
