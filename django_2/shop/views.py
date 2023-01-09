@@ -217,13 +217,20 @@ def send_mail_to_customers(request):
 
 
 def cart(request):
-    cart_info = get_cart_data(request)
-    context = {
-        'cart_total_quantity': cart_info['cart_total_quantity'],
-        'order': cart_info['order'],
-        'products': cart_info['products']
-    }
-    return render(request, 'shop/cart.html', context)
+    if request.user.is_authenticated:
+        counter_fav = len(FavoriteProducts.objects.filter(user=request.user))
+        cart_info = get_cart_data(request)
+
+        context = {
+            'cart_total_quantity': cart_info['cart_total_quantity'],
+            'order': cart_info['order'],
+            'products': cart_info['products'],
+            'cnt_fav': counter_fav,
+        }
+        return render(request, 'shop/cart.html', context)
+    else:
+        messages.error(request, 'Авторизуйтесь или зарегистрируйтесь, чтобы совершать покупки')
+        return redirect('login_registration')
 
 
 def to_cart(request, product_id, action):
