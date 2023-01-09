@@ -71,21 +71,24 @@ class CustomerForm(forms.ModelForm):
 class ShippingForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress
-        fields = ['address', 'city', 'state', 'phone']
+        fields = ['city',  'state', 'address', 'phone']
 
         widgets = {
-            'address': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ваш адрес...'
-            }),
             'city': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Ваш город...'
             }),
+
             'state': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Штат/Регион...'
+                'placeholder': 'Ваш район...'
             }),
+
+            'address': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваш адрес...'
+            }),
+
             'phone': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Номер телефона...'

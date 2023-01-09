@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header_text %}
+{% endblock header_text %}
+
+{% block header_poster %}
+{% endblock header_poster %}
+
+{% block main %}
+
+<main>
+
+    <div class="container">
+        <!-- HERO SECTION-->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="h2 text-uppercase mb-0">Оформление заказа</h1>
+                    </div>
+                    <div class="col-lg-6 text-lg-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                                <li class="breadcrumb-item"><a class="text-dark" href="{% url 'product_list' %}">Главная</a></li>
+                                <li class="breadcrumb-item"><a class="text-dark" href="{% url 'cart' %}">Корзина</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Оформление заказа</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container">
+        <div class="row">
+             <div class="col-lg-4">
+                    <div class="card border-0 rounded-0 p-lg-4 bg-light">
+                        <div class="card-body">
+                            <h5 class="text-uppercase mb-4">Ваша покупка</h5>
+                            <ul class="list-unstyled mb-0">
+
+                                {% for item in items %}
+                                {% include 'shop/components/_cart_check.html' %}
+                                {% endfor %}
+                                <li class="d-flex align-items-center justify-content-between"><strong
+                                    class="text-uppercase small fw-bold">Итого:</strong><span>${{ order.get_cart_total_price }}</span></li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            <!-- BILLING ADDRESS-->
+
+            <div class="col-lg-6">
+                <div class="box-element">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div id="user-info">
+                            <h2 class="h5 text-uppercase mb-4">Ваши данные</h2>
+                            <div>
+                                <label class="form-label text-sm text-uppercase">Ваше имя</label>
+                                <div class="form-field">{{ customer_form.name }}</div>
+                            </div>
+                            <div>
+                                <label class="form-label text-sm text-uppercase">Ваша почта</label>
+                                <div class="form-field">{{ customer_form.email }}</div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="shipping-info">
+                            <label class="form-label text-sm text-uppercase">Адрес доставки</label>
+                            {% for field in shipping_form %}
+                                <div>
+                                    <div class="form-field">{{ field }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="btn btn-success" type="submit">Оформить заказ</button>
+                    </form>
+                  </div>
+                      </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+</main>
+{% endblock main %}

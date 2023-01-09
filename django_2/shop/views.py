@@ -243,6 +243,7 @@ def to_cart(request, product_id, action):
 
 
 def checkout(request):
+    counter_fav = len(FavoriteProducts.objects.filter(user=request.user))
     cart_info = get_cart_data(request)
     context = {
         'cart_total_quantity': cart_info['cart_total_quantity'],
@@ -250,6 +251,7 @@ def checkout(request):
         'items': cart_info['products'],
         'customer_form': CustomerForm(),
         'shipping_form': ShippingForm(),
+        'cnt_fav': counter_fav,
         'title': 'Оформление заказа'
     }
     return render(request, 'shop/checkout.html', context)
