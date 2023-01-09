@@ -9,6 +9,7 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.core import paginator
 from .utils import CartForAuthenticatedUser, get_cart_data
 
 import stripe
@@ -41,6 +42,7 @@ class ProductList(ListView):
 
 
 class CategoryView(ListView):
+    paginate_by = 2
     model = Product
     context_object_name = 'products'
     template_name = 'shop/category_page.html'
