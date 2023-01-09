@@ -32,7 +32,10 @@ class ProductList(ListView):
 
         if self.request.user.is_authenticated:
             counter_fav = len(FavoriteProducts.objects.filter(user=user))
+            cart_info = get_cart_data(self.request)
+            counter_bas = cart_info['cart_total_quantity']
             context['cnt_fav'] = counter_fav
+            context['cnt_bas'] = counter_bas
 
         return context
 
@@ -68,8 +71,11 @@ class CategoryView(ListView):
         context['all_category'] = all_category
 
         if self.request.user.is_authenticated:
+            cart_info = get_cart_data(self.request)
+            counter_bas = cart_info['cart_total_quantity']
             counter_fav = len(FavoriteProducts.objects.filter(user=user))
             context['cnt_fav'] = counter_fav
+            context['cnt_bas'] = counter_bas
 
         return context
 
@@ -93,9 +99,12 @@ class ProductDetail(DetailView):
         context['reviews'] = Review.objects.filter(product=product)
         user = self.request.user
         if self.request.user.is_authenticated:
+            cart_info = get_cart_data(self.request)
             counter_fav = len(FavoriteProducts.objects.filter(user=user))
             context['cnt_fav'] = counter_fav
             context['review_form'] = ReviewForm()
+            counter_bas = cart_info['cart_total_quantity']
+            context['cnt_bas'] = counter_bas
 
         return context
 
@@ -187,6 +196,9 @@ class FavoriteProductsView(LoginRequiredMixin, ListView):
         if self.request.user.is_authenticated:
             counter_fav = len(FavoriteProducts.objects.filter(user=user))
             context['cnt_fav'] = counter_fav
+            cart_info = get_cart_data(self.request)
+            counter_bas = cart_info['cart_total_quantity']
+            context['cnt_bas'] = counter_bas
 
         return context
 
@@ -230,6 +242,7 @@ def cart(request):
             'order': cart_info['order'],
             'products': cart_info['products'],
             'cnt_fav': counter_fav,
+            'cnt_bas': cart_info['cart_total_quantity']
         }
         return render(request, 'shop/cart.html', context)
     else:
@@ -256,7 +269,8 @@ def checkout(request):
         'customer_form': CustomerForm(),
         'shipping_form': ShippingForm(),
         'cnt_fav': counter_fav,
-        'title': 'Оформление заказа'
+        'title': 'Оформление заказа',
+        'cnt_bas': cart_info['cart_total_quantity']
     }
     return render(request, 'shop/checkout.html', context)
 
@@ -291,10 +305,12 @@ def success_Payment(request):
     counter_fav = len(FavoriteProducts.objects.filter(user=request.user))
     user_cart.clear()
     messages.success(request, 'Оплата прошла успешно')
+    cnt = user_cart.get_cart_info()['cart_total_quantity']
 
     context = {
         'title': 'Оплата',
-        'cnt_fav': counter_fav
+        'cnt_fav': counter_fav,
+        'cnt_bas': cnt,
     }
 
     return render(request, 'shop/success.html', context)

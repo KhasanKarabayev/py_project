@@ -10,7 +10,12 @@
 
               </ul>
               <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Корзина<small class="text-gray fw-normal">(2)</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Корзина
+                  <small class="text-gray fw-normal">
+                    {% if request.user.is_authenticated %}
+                        ({{ cnt_bas }})
+                    {% endif %}
+                  </small></a></li>
 
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'favorite_products' %}"> <i class="far fa-heart me-1"></i><small class="text-gray fw-normal">
