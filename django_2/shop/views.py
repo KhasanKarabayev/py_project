@@ -288,6 +288,13 @@ def create_checkout_session(request):
 
 def success_Payment(request):
     user_cart = CartForAuthenticatedUser(request)
+    counter_fav = len(FavoriteProducts.objects.filter(user=request.user))
     user_cart.clear()
     messages.success(request, 'Оплата прошла успешно')
-    return render(request, 'shop/success.html')
+
+    context = {
+        'title': 'Оплата',
+        'cnt_fav': counter_fav
+    }
+
+    return render(request, 'shop/success.html', context)
