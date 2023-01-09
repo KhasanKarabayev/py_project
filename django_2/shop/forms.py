@@ -50,3 +50,44 @@ class ReviewForm(forms.ModelForm):
                 'placeholder': 'Ваш отзыв...'
             })
         }
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name', 'email']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваше имя...'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваше почта...'
+            })
+        }
+
+
+class ShippingForm(forms.ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = ['address', 'city', 'state', 'phone']
+
+        widgets = {
+            'address': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваш адрес...'
+            }),
+            'city': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваш город...'
+            }),
+            'state': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Штат/Регион...'
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Номер телефона...'
+            })
+        }
