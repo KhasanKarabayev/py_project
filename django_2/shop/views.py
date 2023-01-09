@@ -86,7 +86,10 @@ class ProductDetail(DetailView):
 
         context['products'] = data
         context['reviews'] = Review.objects.filter(product=product)
+        user = self.request.user
         if self.request.user.is_authenticated:
+            counter_fav = len(FavoriteProducts.objects.filter(user=user))
+            context['cnt_fav'] = counter_fav
             context['review_form'] = ReviewForm()
 
         return context
