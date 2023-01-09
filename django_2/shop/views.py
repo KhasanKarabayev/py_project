@@ -216,7 +216,7 @@ def send_mail_to_customers(request):
 
 
 def cart(request):
-    return render(request, 'store/cart.html')
+    return render(request, 'shop/cart.html')
 
 
 def to_cart(request, product_id, action):
@@ -229,4 +229,4 @@ def checkout(request):
         'shipping_form': ShippingForm(),
         'title': 'Оформление заказа'
     }
-    return render(request, 'store/checkout.html', context)
+    return render(request, 'shop/checkout.html', context)
