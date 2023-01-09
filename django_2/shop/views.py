@@ -3,7 +3,7 @@ from random import randint
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product, Review, FavoriteProducts, Mail
-from .forms import LoginForm, RegistrationForm, ReviewForm
+from .forms import LoginForm, RegistrationForm, ReviewForm, ShippingForm, CustomerForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -213,3 +213,20 @@ def send_mail_to_customers(request):
     else:
         pass
     return render(request, 'shop/send_mail.html')
+
+
+def cart(request):
+    return render(request, 'store/cart.html')
+
+
+def to_cart(request, product_id, action):
+    return redirect('cart')
+
+
+def checkout(request):
+    context = {
+        'customer_form': CustomerForm(),
+        'shipping_form': ShippingForm(),
+        'title': 'Оформление заказа'
+    }
+    return render(request, 'store/checkout.html', context)
