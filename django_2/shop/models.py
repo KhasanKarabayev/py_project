@@ -113,3 +113,75 @@ class Mail(models.Model):
     class Meta:
         verbose_name = 'Почта'
         verbose_name_plural = 'Почтовые адреса'
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, models.SET_NULL, blank=True, null=True) # blank и null обязательны, если обнулится пользователь то его удалим
+    name = models.CharField(max_length=255, verbose_name='Имя полтзователя')
+    email = models.EmailField(verbose_name='Почта')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Покупатель'
+        verbose_name_plural = 'Покупатели'
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_completed = models.BooleanField(default=True)
+    shipping = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.pk) + ' '
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    @property
+    def get_cart_total_price(self):
+        order_products = self.orderproduct_set.all() # orderproduct обращение к детям если не прописан related_name
+        total_price = sum([product.get_total_price for product in order_products]) # сумма список всех денежных средств
+        return total_price
+
+    @property
+    def get_cart_total_quantity(self):
+        order_products = self.orderproduct_set.all()
+        total_quantity = sum([product.quantity for product in order_products])
+        return total_quantity
+
+
+class OrderProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL,  null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL,  null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Товар в заказе'
+        verbose_name_plural = 'Товары в заказах'
+
+    @property
+    def get_total_price(self):
+        total_price = self.product.price * self.quantity
+        return total_price
+
+
+class ShippingAddress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
+
+    class Meta:
+        verbose_name = 'Адрес доставки'
+        verbose_name_plural = 'Адреса доставки'
