@@ -7,6 +7,7 @@ from .forms import LoginForm, RegistrationForm, ReviewForm, ShippingForm, Custom
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .utils import CartForAuthenticatedUser, get_cart_data
 
 
 class ProductList(ListView):
