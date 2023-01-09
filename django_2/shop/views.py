@@ -1,4 +1,5 @@
 from random import randint
+from conf import settings
 
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -7,7 +8,10 @@ from .forms import LoginForm, RegistrationForm, ReviewForm, ShippingForm, Custom
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 from .utils import CartForAuthenticatedUser, get_cart_data
+
+import stripe
 
 
 class ProductList(ListView):
@@ -255,3 +259,35 @@ def checkout(request):
         'title': 'Оформление заказа'
     }
     return render(request, 'shop/checkout.html', context)
+
+
+def create_checkout_session(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    if request.method == 'POST':
+        user_cart = CartForAuthenticatedUser(request)
+        cart_info = user_cart.get_cart_info()
+        total_price = cart_info['cart_total_price']
+        total_quantity = cart_info['cart_total_quantity']
+        session = stripe.checkout.Session.create(
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': 'Товары с shop.distro.uz'
+                    },
+                    'unit_amount': int(total_price * 100)
+                },
+                'quantity': total_quantity
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri(reverse('success')),
+            cancel_url=request.build_absolute_uri(reverse('success'))
+        )
+        return redirect(session.url, 303)
+
+
+def success_Payment(request):
+    user_cart = CartForAuthenticatedUser(request)
+    user_cart.clear()
+    messages.success(request, 'Оплата прошла успешно')
+    return render(request, 'shop/success.html')
