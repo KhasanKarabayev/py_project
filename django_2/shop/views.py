@@ -217,15 +217,30 @@ def send_mail_to_customers(request):
 
 
 def cart(request):
-    return render(request, 'shop/cart.html')
+    cart_info = get_cart_data(request)
+    context = {
+        'cart_total_quantity': cart_info['cart_total_quantity'],
+        'order': cart_info['order'],
+        'products': cart_info['products']
+    }
+    return render(request, 'shop/cart.html', context)
 
 
 def to_cart(request, product_id, action):
-    return redirect('cart')
+    if request.user.is_authenticated:
+        user_cart = CartForAuthenticatedUser(request, product_id, action)
+        return redirect('cart')
+    else:
+        messages.error(request, 'Авторизуйтесь или зарегистрируйтесь, чтобы совершать покупки')
+        return redirect('login_registration')
 
 
 def checkout(request):
+    cart_info = get_cart_data(request)
     context = {
+        'cart_total_quantity': cart_info['cart_total_quantity'],
+        'order': cart_info['order'],
+        'items': cart_info['products'],
         'customer_form': CustomerForm(),
         'shipping_form': ShippingForm(),
         'title': 'Оформление заказа'
