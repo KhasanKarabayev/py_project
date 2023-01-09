@@ -1,15 +1,15 @@
 {% load i18n %}
 <header class="header bg-white">
         <div class="container px-lg-3">
-          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="{% url 'product_list' %}"><span class="fw-bold text-uppercase text-dark">Финальный проект</span></a>
+          <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="{% url 'product_list' %}"><span class="fw-bold text-uppercase text-dark">{% translate 'Финальный проект' %}</span></a>
             <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                  <!-- Link--><a class="nav-link active" href="{% url 'product_list' %}">Главная</a>
+                  <!-- Link--><a class="nav-link active" href="{% url 'product_list' %}">{% translate 'Главная' %}</a>
 
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Язык</a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> {% translate 'Язык' %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
                           {% get_current_language as LANGUAGE_CODE %}
                           {% get_available_languages as LANGUAGES %}
@@ -23,7 +23,7 @@
                 </li>
               </ul>
               <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Корзина
+                <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>{% translate 'Корзина' %}
                   <small class="text-gray fw-normal">
                     {% if request.user.is_authenticated %}
                         ({{ cnt_bas }})
@@ -32,7 +32,7 @@
 
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'favorite_products' %}"> <i class="far fa-heart me-1"></i><small class="text-gray fw-normal">
-                  Избранные
+                  {% translate 'Избранные' %}
                   {% if request.user.is_authenticated %}
                     ({{ cnt_fav }})
                   {% endif %}
@@ -40,9 +40,9 @@
                 </small></a></li>
 
                 {% if request.user.is_authenticated %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Выйти</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"> <i class="fas fa-user me-1 text-gray fw-normal"></i>{% translate 'Выйти' %}</a></li>
                 {% else %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'login_registration' %}"> <i class="fas fa-user me-1 text-gray fw-normal"></i>Войти/Зарегистрироваться</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'login_registration' %}"> <i class="fas fa-user me-1 text-gray fw-normal"></i>{% translate 'Войти/Зарегистрироваться' %}</a></li>
                 {% endif %}
 
               </ul>
