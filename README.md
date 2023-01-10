@@ -17,6 +17,6 @@ https://cooking.distro.uz/
 
 * django_2 - Интернет магазин 
    * celety
-   '''
+   ```
    celery -A conf worker -l info -P gevent
-   '''
+   ```
