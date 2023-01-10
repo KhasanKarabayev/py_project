@@ -210,6 +210,11 @@ def save_email(request):
     user = request.user if request.user.is_authenticated else None
     if email:
         Mail.objects.create(mail=email, user=user)
+        # from .service import send
+        # send(email)
+        from .tasks import silent_send
+        silent_send.delay(email)
+        print('2222')
     next_page = request.META.get('HTTP_REFERER', 'product_list')
     return redirect(next_page)
 
