@@ -9,9 +9,9 @@ def silent_send(user_email):
     send(user_email)
 
 
-@app.task
-def send_spam():
-    """Запуск задач по расписанию"""
-    for user_email in Mail.objects.all():
-        send(user_email)
+# @app.task
+# def send_spam():
+#     """Запуск задач по расписанию"""
+#     for user_email in Mail.objects.all():
+#         send(user_email)
 

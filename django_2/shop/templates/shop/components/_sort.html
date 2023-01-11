@@ -1,9 +1,10 @@
 {% load store_tags %}
 {% get_sorted as data %}
+{% load i18n %}
 
 <div class="py-2 px-4 bg-dark text-white mb-3">
     <strong class="small text-uppercase fw-bold">
-        подкатегории: {{ category }}
+        {% translate 'подкатегории' %} {{ category }}
     </strong>
 </div>
 

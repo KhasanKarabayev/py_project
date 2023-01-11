@@ -9,7 +9,7 @@
 
 {% block header_poster %}
 {% endblock header_poster %}
-
+{% load i18n %}
 {% block main %}
 
 <main>
@@ -67,7 +67,7 @@
           {% include 'shop/components/_product_detail_tabs.html' %}
 
           <!-- RELATED PRODUCTS-->
-          <h2 class="h5 text-uppercase mb-4">Похожие товары</h2>
+          <h2 class="h5 text-uppercase mb-4">{% translate 'Похожие товары' %}</h2>
           <div class="row">
             <!-- PRODUCT-->
             {% for product in products %}

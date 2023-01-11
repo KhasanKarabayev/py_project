@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
   <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Дополнительно</a></li>
   <li class="nav-item"><a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</a></li>
@@ -5,7 +7,7 @@
 <div class="tab-content mb-5" id="myTabContent">
   <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
     <div class="p-4 p-lg-5 bg-white">
-      <h6 class="text-uppercase">Описание товара</h6>
+      <h6 class="text-uppercase">{% translate 'Описание товара' %}</h6>
       <p class="text-muted text-sm mb-0">{{ product.info }}</p>
     </div>
   </div>
@@ -21,20 +23,19 @@
                 <form action="{% url 'save_review' product.pk %}" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   {{ review_form.text }}
-                  <button class="btn btn-success">Оставить отзыв</button>
+                  <button class="btn btn-success">{% translate 'Оставить отзыв' %}</button>
                 </form>
               </div>
             {% else %}
               <div class="container">
                 <h6 class="text-center">
-                  Отзыв могут оставить только зарегистрированные пользователи
+                  {% translate 'Отзыв могут оставить только зарегистрированные пользователи' %}
                   <a href="{% url 'login_registration' %}">Войти</a>
                 </h6>
               </div>
             {% endif %}
           </div>
           {% include 'shop/components/_product_detail_reviews.html' %}
-
         </div>
       </div>
     </div>
