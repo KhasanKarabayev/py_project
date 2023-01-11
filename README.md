@@ -16,7 +16,8 @@ https://cooking.distro.uz/
 
 
 * django_2 - Интернет магазин 
-   * celety
+   * celely
    ```
-   celery -A conf worker -l info -P gevent
+   celery -A conf worker -l info -P gevent   # Для фоновых задач
+   celery -A conf beat -l info               # Для задач по расписанию
    ```
